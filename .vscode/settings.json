@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "trackbase.h": "c",
+        "list": "cpp",
+        "string": "cpp"
+    }
+}
