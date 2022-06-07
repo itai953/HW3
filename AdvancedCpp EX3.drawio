@@ -1,11 +1,11 @@
 <mxfile host="65bd71144e">
     <diagram id="44q2uDsoj2Jr73g2Fu_d" name="Page-1">
-        <mxGraphModel dx="1301" dy="410" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1612" dy="472" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="xyghL1K83STjx0oW8IJl-1" value="Model" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-                    <mxGeometry x="-280" y="10" width="360" height="298" as="geometry"/>
+                    <mxGeometry x="-360" y="10" width="360" height="298" as="geometry"/>
                 </mxCell>
                 <mxCell id="xyghL1K83STjx0oW8IJl-2" value="- simObjLst&#10;- warehouses: map&lt;string,shared_ptr&lt;SimObject&gt;&gt;&#10;- vehicles: map&lt;string,shared_ptr&lt;SimObject&gt;&gt;&#10;- view&#10;- time: uint&#10;+ enum{TROOPER,CHOPPER,TRUCK,WAREHOUSE}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="xyghL1K83STjx0oW8IJl-1" vertex="1">
                     <mxGeometry y="26" width="360" height="114" as="geometry"/>

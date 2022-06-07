@@ -1,8 +1,9 @@
-#ifndef TRUCK
-#define TRUCK
+#ifndef TRUCK_H
+#define TRUCK_H
 #include "Vehicle.h"
 #include <string>
 #include<list>
+#include <fstream>
 
 using namespace std;
 
@@ -11,7 +12,7 @@ typedef struct stopNode{
     u_int arrival;
     u_int departure;
     u_int qty;
-}stopNode;
+};
 
 class Truck : public Vehicle
 {
@@ -20,12 +21,14 @@ class Truck : public Vehicle
 
     u_int timeConverter(string time);
     void truckFileReader();
-
     public:
-        Truck(){;}
-        void init(string filePath);
+        Truck(const string& name):Vehicle(name),numCrates(0){}
+        void init(const string& fPath);
+        Truck* createInstance(const string& name){return new Truck(name);}
         void attack();
-        void update();
+        void update(){};
+        virtual void broadcastState(){ }
+        virtual const Point& getLocation() const{ }
 
 };
 
