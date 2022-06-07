@@ -2,4 +2,4 @@
 #include "factory.h"
 
 
-registerInFactory<Vehicle, Chopper> rc("chopper");
+registerInFactory<SimObject, Chopper> rc("chopper");

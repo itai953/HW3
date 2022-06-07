@@ -3,6 +3,7 @@
 #include "Vehicle.h"
 #include <string>
 #include <list>
+#include <memory>
 
 using namespace std;
 
@@ -16,10 +17,10 @@ public:
     void position(double x, double y);
     void course(double _course);
     void buildCourse(const string& startWH);
-    virtual void update();
+    virtual void update(){};
     static Trooper* createInstance(const string& param){ return new Trooper(param);}
     virtual void broadcastState(){ }
-    virtual const Point& getLocation() const{ }
+    virtual const Point& getLocation() const{return Point(); }
 };
 
 #endif
