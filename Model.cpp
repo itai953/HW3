@@ -32,5 +32,24 @@ u_int Model:: hourToDecimal(string& hour){
     return decHour;
 }
 
-    
+void Model::readDepotFile(const string& filePath){
+    ifstream f(filePath);
+    if(!f){
+        //TODO throw exception
+    }
+    int inventory; Point p;
+    string name,point,inv;
+    while(!f.eof()){
+        getline(f,name,',');
+        getline(f,point,')');
+        f.ignore();
+        getline(f,inv);
+        stringstream(inv) >> inventory;
+        stringstream sp(point);
+        sp.ignore();
+        sp >> p.x;
+        sp.ignore();
+        sp >> p.y;
+    }
+}
 

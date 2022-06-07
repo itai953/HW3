@@ -6,7 +6,7 @@
 #include <fstream>
 
 using namespace std;
-
+auto MODEL = Model::getInstance;
 typedef struct stopNode{
     Warehouse* nextStop;
     u_int arrival;
@@ -28,7 +28,7 @@ class Truck : public Vehicle
         void attack();
         void update(){};
         virtual void broadcastState(){ }
-        virtual const Point& getLocation() const{return Point(); }
+        // virtual const Point& getLocation() const{return Point(); }
 
 };
 

@@ -14,7 +14,6 @@ protected:
     double course;
     Point position; //target
 public:
-    enum{STOPPED=0,OFFROAD=1,MOVING=2,PARKED=3};
     TrackBase(){ };
     TrackBase(double speed, Point curLoc,double _course,Point target = Point(0,0),int status = STOPPED);
     const Point& getCurLocation() const{return curLocation;}

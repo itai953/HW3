@@ -8,6 +8,7 @@ class Vehicle :public SimObject, public TrackBase
     string name;
     public:
         Vehicle(const string& name):SimObject(name),TrackBase(){ }
+        virtual const Point& getLocation() const {return TrackBase::getCurLocation();}
         // string& getName{return name;}
         // void update() = 0;
 };
