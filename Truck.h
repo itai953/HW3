@@ -12,7 +12,7 @@ typedef struct stopNode{
     u_int arrival;
     u_int departure;
     u_int qty;
-};
+} StopNode;
 
 class Truck : public Vehicle
 {
@@ -24,11 +24,11 @@ class Truck : public Vehicle
     public:
         Truck(const string& name):Vehicle(name),numCrates(0){}
         void init(const string& fPath);
-        Truck* createInstance(const string& name){return new Truck(name);}
+        static Truck* createInstance(const string& name){return new Truck(name);}
         void attack();
         void update(){};
         virtual void broadcastState(){ }
-        virtual const Point& getLocation() const{ }
+        virtual const Point& getLocation() const{return Point(); }
 
 };
 

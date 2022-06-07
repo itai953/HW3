@@ -1,3 +1,5 @@
+#ifndef GEOMETRY_H
+#define GEOMETRY_H
 #include <iostream>
 #include <iomanip>
 using namespace std;
@@ -28,3 +30,6 @@ typedef struct Polar_vector {
 	double r;
 	double theta;
 } Polar_vector;
+
+
+#endif

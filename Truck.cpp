@@ -3,7 +3,7 @@
 #include <sstream>
 #include "factory.h"
 
-registerInFactory<Vehicle, Truck> rt("truck");
+registerInFactory<SimObject, Truck> rtruck("truck");
 void Truck::init(const string& fPath){
     string line, token;
     ifstream file(fPath);
