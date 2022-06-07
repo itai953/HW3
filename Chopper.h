@@ -8,7 +8,7 @@ public:
     virtual void update(){}
     static Chopper* createInstance(const string& param){ return new Chopper(param);}
     virtual void broadcastState(){ }
-    virtual const Point& getLocation() const {return Point(); }
+    // virtual const Point& getLocation() const {return Point(); }
 };
 
 #endif

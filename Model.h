@@ -16,7 +16,7 @@ class Model{
     unordered_map<string,obj_ptr> simObjList;
     unordered_map<string,obj_ptr> warehouses;
     unordered_map<string,obj_ptr> vehicles;
-    Model(u_int curr_hour = 0):curr_hour(0),time(0),simObjList(1),warehouses(1),vehicles(0){ }
+    Model(u_int curr_hour = 0):curr_hour(0),time(0),simObjList(1),warehouses(1),vehicles(0){}
 
 public:
     enum TYPE{WAREHOUSE,TRUCK,TROOPER,CHOPPER};

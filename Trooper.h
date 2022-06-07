@@ -20,7 +20,7 @@ public:
     virtual void update(){};
     static Trooper* createInstance(const string& param){ return new Trooper(param);}
     virtual void broadcastState(){ }
-    virtual const Point& getLocation() const{return Point(); }
+    // virtual const Point& getLocation() const{return Point(); }
 };
 
 #endif
