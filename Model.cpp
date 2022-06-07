@@ -21,11 +21,11 @@ bool Model::containsObj(TYPE t, const string& name){
     return false;
 }
 
-u_int Model:: hourToDecimal(string& hour){
+float Model:: hourToDecimal(string& hour){
     hour[2] = ' ';
     stringstream ss(hour);
-    int decHour;
-    int decMins;
+    float decHour;
+    float decMins;
     ss>>decHour;
     ss>>decMins;
     decHour+= decMins/60;

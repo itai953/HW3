@@ -2,7 +2,7 @@
 #define TRACKBASE
 
 #include "Geometry.h"
-enum STATUS{STOP,PARKED,OFFROAD,MOVING};
+enum STATUS{STOPPED,PARKED,OFFROAD,MOVING};
 typedef unsigned int u_int;
 
 class TrackBase{

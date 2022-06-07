@@ -1,7 +1,7 @@
 #ifndef VEHICLE
 #define VEHICLE
 #include "TrackBase.h"
-#include "WareHouse.h"
+#include "Warehouse.h"
 
 class Vehicle :public SimObject, public TrackBase
 {

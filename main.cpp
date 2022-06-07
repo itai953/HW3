@@ -12,6 +12,7 @@ int main(int argc, char** argv){
         cerr << "ERROR usage: <program name> -w <warehouse_file> -t <truck_file1> [truckfile2,truckfile3,...]\n";
         exit(1);
     }
-    
+
+
     return 0;
 }

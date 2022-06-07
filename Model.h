@@ -4,15 +4,18 @@
 #include <vector>
 #include <unordered_map>
 #include <sstream>
-#include "Truck.h"
+#include <fstream>
 #include "Trooper.h"
-// #include "Chopper.h"
+ #include "Chopper.h"
 #include "Warehouse.h"
+
+class Truck;
+
 using u_int = unsigned int;
 using obj_ptr = shared_ptr<SimObject>;
 class Model{
-    u_int curr_hour;
-    u_int time;
+    float curr_hour;
+    float time;
     unordered_map<string,obj_ptr> simObjList;
     unordered_map<string,obj_ptr> warehouses;
     unordered_map<string,obj_ptr> vehicles;
@@ -23,10 +26,12 @@ public:
     static Model& getInstance();
     void readDepotFile(const string& filePath);
     bool containsObj(TYPE t, const string& name);
-    static u_int hourToDecimal(string& hour); 
+    static float hourToDecimal(string& hour);
 
-    u_int getTime(){return time;}
-    u_int setTime(u_int _time){time = _time;}
+    float getTime(){return time;}
+    void setTime(float _time){time = _time;}
+
+    shared_ptr<Warehouse> getWarehousePointer(string& name){return static_pointer_cast<Warehouse>(warehouses[name]);}
 
 };
 
