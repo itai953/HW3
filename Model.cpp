@@ -1,10 +1,45 @@
 #include "Model.h"
-
+#include "factory.h"
 Model& Model::getInstance(){
     static Model inst;
     return inst;
 }
 
+Model::Model(u_int curr_hour):curr_hour(curr_hour),time(0),simObjList(0),warehouses(0),vehicles(0){
+    warehouses["Frankfurt"] = make_shared<Warehouse>("Frankfurt",100000,Point(40,10));
+    simObjList["Frankfurt"] = dynamic_pointer_cast<SimObject>(warehouses["Frankfurt"]);
+}
+
+
+void Model::init(vector<string>&& argv){
+    bool truckFileFound = false;
+    for(u_int i=0; i < argv.size();i++){
+        if(argv[i] == "-w"){
+            i++;
+            readDepotFile(argv[i]);
+            continue;
+        }
+        if(argv[i] == "-t"){
+            truckFileFound = true;
+            i++;
+            while(argv[i] != "-w"){
+                auto truckfileName = argv[i];
+                size_t lastdot = truckfileName.find_last_of(".");
+                string truckName = truckfileName.substr(0,lastdot);
+                vehicles[truckName] = genericFactory<Vehicle>::instance().create("truck",truckName);
+                simObjList[truckName] = dynamic_pointer_cast<SimObject>(vehicles[truckName]);
+                shared_ptr<Truck> tp = dynamic_pointer_cast<Truck>(vehicles[truckName]);
+                try{   
+                    tp->init(truckfileName);
+                }catch(...){
+                    //TODO catch correct exception and throw or terminate
+                }
+                if(argv.size() <= ++i) break;
+            }
+            i--;
+        }
+    }
+}
 
 bool Model::containsObj(TYPE t, const string& name){
     auto it = simObjList.find(name);
@@ -49,7 +84,6 @@ void Model::readDepotFile(const string& filePath){
         double x, y; char c;
         sp.ignore(2);
         sp >> x;
-        // sp.ignore();
         sp >> c;
         sp >> y;
         warehouses[name] = shared_ptr<Warehouse>(new Warehouse(name,inventory,Point(x,y)));

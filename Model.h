@@ -16,7 +16,7 @@ class Model{
     unordered_map<string,obj_ptr> simObjList;
     unordered_map<string,shared_ptr<Warehouse>> warehouses;
     unordered_map<string,shared_ptr<Vehicle>> vehicles;
-    Model(u_int curr_hour = 0):curr_hour(0),time(0),simObjList(1),warehouses(1),vehicles(0){}
+    Model(u_int curr_hour = 0);
 
 public:
     enum TYPE{WAREHOUSE,TRUCK,TROOPER,CHOPPER};
@@ -26,8 +26,10 @@ public:
     static u_int hourToDecimal(string& hour); 
     const unordered_map<string, shared_ptr<SimObject>>& getSimObjList() const {return simObjList;}
     const unordered_map<string,shared_ptr<Warehouse>>& getWarehouses() const {return warehouses;}
+    const unordered_map<string,shared_ptr<Vehicle>>& getVehicles() const { return vehicles;}
     u_int getTime() const {return time;}
     void setTime(u_int _time) {time = _time;}
+    void init(vector<string>&& argv);
     
 
 };
