@@ -1,5 +1,6 @@
 #include "Model.h"
 #include "factory.h"
+#include "Truck.h"
 Model& Model::getInstance(){
     static Model inst;
     return inst;
@@ -45,7 +46,7 @@ bool Model::containsObj(TYPE t, const string& name){
     auto it = simObjList.find(name);
     switch(t){
         case WAREHOUSE:
-            return it != simObjList.end() && typeid(*(it->second.get())).name() == "Warehouse";
+            return it != simObjList.end() && typeid(*(it->second.get())).name() == string("Warehouse");
         case TROOPER:
             return it != simObjList.end() && typeid(*(it->second.get())).name() == "Trooper";
         case TRUCK:
@@ -87,7 +88,12 @@ void Model::readDepotFile(const string& filePath){
         sp >> c;
         sp >> y;
         warehouses[name] = shared_ptr<Warehouse>(new Warehouse(name,inventory,Point(x,y)));
-        simObjList[name] = dynamic_pointer_cast<SimObject>(warehouses[name]);
+        simObjList[name] = warehouses[name];
     }
 }
 
+void Model::updateAll(){
+    for(auto &o: simObjList){
+        o.second->update();
+    }
+}

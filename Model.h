@@ -31,8 +31,12 @@ public:
     const unordered_map<string,shared_ptr<Vehicle>>& getVehicles() const { return vehicles;}
     void init(vector<string>&& argv);
     static float hourToDecimal(string& hour);
+    void setVehicleCourse(const string& name, double course, double speed){vehicles[name]->setCourse(course);
+                                                                            vehicles[name]->setSpeed(speed);};
+    void setVehicleCourse(const string& name, double course){vehicles[name]->setCourse(course);};
     float getTime(){return time;}
     void setTime(float _time){time = _time;}
+    void updateAll();
     shared_ptr<Warehouse> getWarehousePointer(string& name){return static_pointer_cast<Warehouse>(warehouses[name]);}
 };
 

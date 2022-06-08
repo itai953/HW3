@@ -22,7 +22,7 @@ public:
     void operator-=(int take_crates){inventory -= take_crates;}
     //imp of SimObject getLocation
     virtual const Point& getLocation() const {return location;}
-    virtual void broadcastState(){} 
+    virtual ostream& broadcastState(ostream& out){} 
 };
 
 #endif

@@ -9,6 +9,7 @@ using namespace std;
  */
 
 class SimObject{
+protected:
     string name;
 public:
     //c'tor
@@ -19,9 +20,9 @@ public:
     
     //to be implemented in extending classes
     virtual void update() = 0;
-    virtual void broadcastState() = 0;
+    virtual ostream& broadcastState(ostream& out) = 0;
     virtual const Point& getLocation() const = 0;
-    
+    string& getName(){return name;}
     //d'tor
     virtual ~SimObject() { }
 };

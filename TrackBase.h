@@ -13,15 +13,16 @@ protected:
     double course;
     Point position; //target
 public:
-    enum STATUS{STOP,PARKED,OFFROAD,MOVING};
+    enum STATUS{STOPPED,PARKED,OFFROAD,MOVING};
     TrackBase(){ };
-    TrackBase(double speed, Point curLoc,double _course,Point target = Point(0,0),int status = STOP);
+    TrackBase(double speed, Point curLoc,double _course,Point target = Point(0,0),int status = STOPPED);
     const Point& getCurLocation() const{return curLocation;}
     double getCourse(){return course;}
-    // void setStatus(u_int _status);
-    // void setCourse(double _course);
-    // void setposition(double x, double y);
-    // void setSpeed(double _speed){speed = _speed;}
+    u_int getStatus(){return status;}
+    void setStatus(u_int _status);
+    void setCourse(double _course);
+    void setposition(double x, double y);
+    void setSpeed(double _speed){speed = _speed;}
 };
 
 

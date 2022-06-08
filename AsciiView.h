@@ -15,8 +15,8 @@ using u_int = unsigned int;
 class AsciiView{
     u_int scale,size;
     Point origin;
-    enum{MINSIZE = 6, MAXSIZE = 30};
 public:
+    enum{MINSIZE = 6, MAXSIZE = 30};
     //c'tor
     AsciiView(u_int _scale = 2, u_int _size = 25, Point _origin = Point(0,0)):scale(_scale),size(_size),origin(_origin){ }
     

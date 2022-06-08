@@ -63,6 +63,11 @@ void Point::print() const
 	cout << setprecision(2) << "(" << x << ", " << y << ")";
 }
 
+ostream& operator<<(ostream&os, const Point& p){
+	os<< setprecision(2) << "(" << p.x << ", " << p.y << ")";
+	return os;
+}
+
 bool Point::operator==(const Point & rhs)
 {
 	return x == rhs.x && y == rhs.y;

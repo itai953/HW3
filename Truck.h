@@ -1,9 +1,8 @@
 #ifndef TRUCK_H
 #define TRUCK_H
 #include "Vehicle.h"
-
 #include <string>
-#include<list>
+#include <list>
 #include <fstream>
 #include "Model.h"
 
@@ -18,11 +17,10 @@ struct StopNode{
 
 class Truck : public Vehicle
 {
-        u_int numCrates;
-        list<StopNode> stops;
-        void readTruckFileLine(string &line);
-        void readFirstLine(string &line);
-
+    u_int numCrates;
+    list<StopNode> stops;
+    void readTruckFileLine(string &line);
+    void readFirstLine(string &line);
     void truckFileReader();
     public:
         Truck(const string& name):Vehicle(name),numCrates(0){}
@@ -30,9 +28,8 @@ class Truck : public Vehicle
         static Truck* createInstance(const string& name){return new Truck(name);}
         void attack(){};
         void update(){};
-        virtual void broadcastState(){ }
+        virtual ostream& broadcastState(ostream& out);
         // virtual const Point& getLocation() const{return Point(); }
-
 };
 
 #endif

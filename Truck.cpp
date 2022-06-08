@@ -4,7 +4,7 @@
 #include "Model.h"
 
 auto MODEL = Model::getInstance;
-registerInFactory<SimObject, Truck> rtruck("truck");
+registerInFactory<Vehicle, Truck> rtruck("truck");
 
 void Truck::init(const string &fPath) {
     string line, token;
@@ -62,10 +62,14 @@ void Truck::readTruckFileLine( string &line){
     getline(ss, departure_s);
 
     if (ss >> temp) {
-        //todo throw something
+        //todo maybe get more info
+        cerr<<"too many arguments\n";
+        exit(1);
     }
     if (!(Model::getInstance().containsObj(Model::WAREHOUSE, name))) {
-        //todo throw
+        //todo maybe get more info
+        cerr<<"warehouse :\""<<name<<"\" does not exists\n";
+        exit(1);
     }
     u_int arrival =  Model::hourToDecimal(arrival_s);
     u_int departure = Model::hourToDecimal(departure_s);
@@ -74,6 +78,30 @@ void Truck::readTruckFileLine( string &line){
     stops.emplace_back(warehouse, arrival, departure, amount);
     numCrates+=amount;
 }
+
+
+ostream& Truck::broadcastState(ostream& out){
+    out<<"Truck "<<Vehicle::SimObject::name;
+    if(Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::MOVING){
+        out<<" at "<<Vehicle::TrackBase::curLocation;
+        out<<" Heading to "<<stops.front().nextStop->getName();
+        out<<" Crates: "<<numCrates;
+    }
+    if (Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::STOPPED)
+    {
+        out<<"stopped at: "<<Vehicle::TrackBase::curLocation;
+    }
+     if (Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::PARKED)
+    {
+        out<<"parked at: "<<Vehicle::TrackBase::curLocation;
+    }
+     if (Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::OFFROAD)
+    {
+        out<<"off road at: "<<Vehicle::TrackBase::curLocation;
+    }  
+    return out;
+}
+
 
 void Truck::truckFileReader() {
 

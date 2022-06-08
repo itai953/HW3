@@ -14,6 +14,7 @@ typedef struct Point {
 	Point();
 	void print() const;
 	bool operator==(const Point& rhs);
+	friend ostream& operator<<(ostream& os, const Point& p);
 } Point;
 struct Polar_vector;
 typedef struct Cartesian_vector {
