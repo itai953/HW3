@@ -20,6 +20,8 @@ public:
     
     //to be implemented in extending classes
     virtual void update() = 0;
+
+    //todo there is some Duplicate code in this implemtaition for instance chopper ant tropper have almost identical output
     virtual ostream& broadcastState(ostream& out) = 0;
     virtual const Point& getLocation() const = 0;
     string& getName(){return name;}

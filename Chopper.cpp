@@ -5,18 +5,23 @@
 registerInFactory<SimObject, Chopper> rc("chopper");
 
 string Chopper::heading(){
+    string st = "Heading";
+    stringstream ss(st);
     if(Vehicle::TrackBase::heading_to){
-        return "Heading to : "<< Vehicle::TrackBase::position;
+        ss<<" to "<<Vehicle::TrackBase::position<<",";
     }
-    return "Heading on course "<< Vehicle::TrackBase::course<<" deg,";
+    else{
+        ss<< " on " << Vehicle::TrackBase::course<<" deg,";
+    }
+    return ss.str();
 }
 
 ostream& Chopper::broadcastState(ostream& out){
     out<<"Chopper "<<Vehicle::SimObject::name;
     if(Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::MOVING){
         out<<" at "<<Vehicle::TrackBase::curLocation;
-        out<<" Heading to "<<stops.front().nextStop->getName();
-        out<<" Crates: "<<numCrates;
+        out<<heading()<<" speed " <<speed<<"km/h\n";
+
     }
     if (Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::STOPPED)
     {

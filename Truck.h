@@ -19,7 +19,7 @@ class Truck : public Vehicle
 {
     u_int numCrates;
     list<StopNode> stops;
-    void readTruckFileLine(string &line);
+    void readTruckFileLine(string &line,u_int lineNumber);
     void readFirstLine(string &line);
     void truckFileReader();
     public:

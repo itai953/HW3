@@ -17,8 +17,9 @@ void Truck::init(const string &fPath) {
     getline(file, line);
     readFirstLine(line);
 
+    u_int line_number = 1;
     while (getline(file, line)) {
-        readTruckFileLine(line);}
+        readTruckFileLine(line,++line_number);}
 }
 
 void Truck::readFirstLine(string &line){
@@ -30,12 +31,13 @@ void Truck::readFirstLine(string &line){
     getline(firstLine, originName, ',');
     getline(firstLine, startTime_s);
 
-    //todo
     if (firstLine >> temp) {
-        //todo throw something
+        cerr<<"too many arguments at file"<<Vehicle::getName()<<".txt at line 1\n";
+        exit(1);
     }
     if (!(Model::getInstance().containsObj(Model::WAREHOUSE, originName))) {
-        //todo throw
+        cerr<<"in file "<<Vehicle::getName()<<".txt in line 1"<<" warehouse: \""<<originName<<"\" does not exists\n";
+        exit(1);
     }
 
     //get a decimal hour out of string
@@ -49,7 +51,7 @@ void Truck::readFirstLine(string &line){
     stops.emplace_back(warehouse, 0, startTime, 0);
 }
 
-void Truck::readTruckFileLine( string &line){
+void Truck::readTruckFileLine( string &line, u_int lineNumber){
     if (line[line.size()-1] =='\r'){line.pop_back();}
 
     string arrival_s, departure_s, name, amount_s;
@@ -62,17 +64,15 @@ void Truck::readTruckFileLine( string &line){
     getline(ss, departure_s);
 
     if (ss >> temp) {
-        //todo maybe get more info
-        cerr<<"too many arguments\n";
+        cerr<<"too many arguments at file"<<Vehicle::getName()<<".txt at line "<<lineNumber<<endl;
         exit(1);
     }
     if (!(Model::getInstance().containsObj(Model::WAREHOUSE, name))) {
-        //todo maybe get more info
-        cerr<<"warehouse :\""<<name<<"\" does not exists\n";
+        cerr<<"in file "<<Vehicle::getName()<<".txt in line"<<lineNumber<<" warehouse: \""<<name<<"\" does not exists\n";
         exit(1);
     }
-    u_int arrival =  Model::hourToDecimal(arrival_s);
-    u_int departure = Model::hourToDecimal(departure_s);
+    float arrival =  Model::hourToDecimal(arrival_s);
+    float departure = Model::hourToDecimal(departure_s);
     u_int amount = stoi(amount_s);
     shared_ptr<Warehouse> warehouse = Model::getInstance().getWarehousePointer(name);
     stops.emplace_back(warehouse, arrival, departure, amount);
