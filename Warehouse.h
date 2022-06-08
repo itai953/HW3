@@ -14,7 +14,7 @@ class Warehouse: public SimObject {
     Point location;
 public:
     //c'tor
-    Warehouse(const string& name,u_int _inventory):SimObject(name),inventory(_inventory){ }
+    Warehouse(const string& name,u_int _inventory,const Point& loc):SimObject(name),inventory(_inventory),location(loc){ }
     //update does nothing, inventory will be updated by trucks
     virtual void update(){ }
     //operator +=, -= overloads to update inventory
@@ -22,6 +22,7 @@ public:
     void operator-=(int take_crates){inventory -= take_crates;}
     //imp of SimObject getLocation
     virtual const Point& getLocation() const {return location;}
+    virtual void broadcastState(){} 
 };
 
 #endif

@@ -2,7 +2,6 @@
 #define TRACKBASE
 
 #include "Geometry.h"
-enum STATUS{STOP,PARKED,OFFROAD,MOVING};
 typedef unsigned int u_int;
 
 class TrackBase{
@@ -14,8 +13,9 @@ protected:
     double course;
     Point position; //target
 public:
+    enum STATUS{STOP,PARKED,OFFROAD,MOVING};
     TrackBase(){ };
-    TrackBase(double speed, Point curLoc,double _course,Point target = Point(0,0),int status = STOPPED);
+    TrackBase(double speed, Point curLoc,double _course,Point target = Point(0,0),int status = STOP);
     const Point& getCurLocation() const{return curLocation;}
     double getCourse(){return course;}
     // void setStatus(u_int _status);

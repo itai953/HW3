@@ -1,8 +1,9 @@
 #include "Truck.h"
-#include "Model.h"
 #include <sstream>
 #include "factory.h"
+#include "Model.h"
 
+auto MODEL = Model::getInstance;
 registerInFactory<SimObject, Truck> rtruck("truck");
 void Truck::init(const string& fPath){
     string line, token;
@@ -22,16 +23,16 @@ void Truck::init(const string& fPath){
     if(firstLine>>temp){
         //todo throw something
     }
-    if(!(MODEL.containsObj(Model::WAREHOUSE,originName))){
+    if(!(MODEL().containsObj(Model::WAREHOUSE,originName))){
         //todo throw
     }
 
     //get a decimal hour out of string
-    int startTime = MODEL.hourToDecimal(startTime_s);
+    int startTime = MODEL().hourToDecimal(startTime_s);
 
-    if (MODEL.getTime() > startTime)
+    if (MODEL().getTime() > startTime)
     {
-       MODEL.setTime(startTime); 
+       MODEL().setTime(startTime); 
     }
     
 
@@ -45,8 +46,7 @@ void Truck::init(const string& fPath){
         getline(ss,dep_hour);        
 
     }
-     }
-    
     string whouseName;
-    Model::getInstance().containsObj(Model::WAREHOUSE, whouseName);
+    MODEL().containsObj(Model::WAREHOUSE, whouseName);
 }
+    

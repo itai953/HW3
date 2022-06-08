@@ -14,8 +14,8 @@ class Model{
     u_int curr_hour;
     u_int time;
     unordered_map<string,obj_ptr> simObjList;
-    unordered_map<string,obj_ptr> warehouses;
-    unordered_map<string,obj_ptr> vehicles;
+    unordered_map<string,shared_ptr<Warehouse>> warehouses;
+    unordered_map<string,shared_ptr<Vehicle>> vehicles;
     Model(u_int curr_hour = 0):curr_hour(0),time(0),simObjList(1),warehouses(1),vehicles(0){}
 
 public:
@@ -24,11 +24,12 @@ public:
     void readDepotFile(const string& filePath);
     bool containsObj(TYPE t, const string& name);
     static u_int hourToDecimal(string& hour); 
-
-    u_int getTime(){return time;}
-    u_int setTime(u_int _time){time = _time;}
+    const unordered_map<string, shared_ptr<SimObject>>& getSimObjList() const {return simObjList;}
+    const unordered_map<string,shared_ptr<Warehouse>>& getWarehouses() const {return warehouses;}
+    u_int getTime() const {return time;}
+    void setTime(u_int _time) {time = _time;}
+    
 
 };
-
 
 #endif

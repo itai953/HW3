@@ -6,7 +6,6 @@
 #include <fstream>
 
 using namespace std;
-auto MODEL = Model::getInstance;
 typedef struct stopNode{
     Warehouse* nextStop;
     u_int arrival;

@@ -1,6 +1,7 @@
 #ifndef TROOPER_H
 #define TROOPER_H
 #include "Vehicle.h"
+#include "Model.h"
 #include <string>
 #include <list>
 #include <memory>
