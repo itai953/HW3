@@ -1,30 +1,34 @@
 #ifndef TRUCK_H
 #define TRUCK_H
 #include "Vehicle.h"
+
 #include <string>
 #include<list>
 #include <fstream>
+#include "Model.h"
 
 using namespace std;
-typedef struct stopNode{
-    Warehouse* nextStop;
-    u_int arrival;
-    u_int departure;
+struct StopNode{
+    shared_ptr<Warehouse> nextStop;
+    float arrival;
+    float departure;
     u_int qty;
-} StopNode;
+    StopNode(const shared_ptr<Warehouse> &nextStop, float arrival, float departure, u_int qty) : nextStop(nextStop),arrival(arrival),departure(departure),qty(qty) {}
+};
 
 class Truck : public Vehicle
 {
-    u_int numCrates;
-    list<stopNode> stops;
+        u_int numCrates;
+        list<StopNode> stops;
+        void readTruckFileLine(string &line);
+        void readFirstLine(string &line);
 
-    u_int timeConverter(string time);
     void truckFileReader();
     public:
         Truck(const string& name):Vehicle(name),numCrates(0){}
         void init(const string& fPath);
         static Truck* createInstance(const string& name){return new Truck(name);}
-        void attack();
+        void attack(){};
         void update(){};
         virtual void broadcastState(){ }
         // virtual const Point& getLocation() const{return Point(); }
