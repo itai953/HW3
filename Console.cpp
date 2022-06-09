@@ -18,6 +18,7 @@ Console::CMD Console::getCMD(){
     string token;
     CMD cm;
     cin >> token;
+    if(token == "EXIT") return EXIT;
     if(viewCMDs.find(token) != viewCMDs.end()){
         cm = viewCMDs[token];
         getViewCMD(cm);

@@ -31,7 +31,7 @@ void Controller::execute(Console::CMD cmd){
             return;
         case Console::CREATE:
             if(console.getVtype() == Model::TROOPER){
-                Model::getInstance().createVehicle(console.getVehicle(),console.getTarget());
+                Model::getInstance().createVehicle(console.getVehicle(),console.getStartPos());
             }else{
                 Model::getInstance().createVehicle(console.getVehicle(),console.getD1(),console.getD2());
             }

@@ -2,7 +2,7 @@
 #include "factory.h"
 #include <sstream>
 
-registerInFactory<SimObject, Chopper> rc("chopper");
+registerInFactory<Vehicle, Chopper> rc("chopper");
 
 string Chopper::heading(){
     string st = "Heading";

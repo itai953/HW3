@@ -1,7 +1,7 @@
 #include "Trooper.h"
 #include "factory.h"
 
-registerInFactory<SimObject, Trooper> rt("trooper");
+registerInFactory<Vehicle, Trooper> rt("trooper");
 
 
 string Trooper::heading(){

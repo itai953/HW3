@@ -13,6 +13,7 @@ public:
     CMD getCMD();
     string getVehicle() const {return vehicle;}
     string getTarget() const { return target;}
+    string getStartPos() const {return startPos;}
     double getD1() const {return d1;}
     double getD2() const {return d2;}
     double getD3() const {return d3;}
