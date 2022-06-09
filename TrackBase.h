@@ -19,9 +19,9 @@ public:
     const Point& getCurLocation() const{return curLocation;}
     double getCourse(){return course;}
     u_int getStatus(){return status;}
-    void setStatus(u_int _status);
-    void setCourse(double _course);
-    void setposition(double x, double y);
+    void setStatus(u_int _status){status = _status;} //TODO write real imp
+    void setCourse(double _course){} //TODO implement
+    void setPosition(double x, double y){} //TODO implement
     void setSpeed(double _speed){speed = _speed;}
 };
 

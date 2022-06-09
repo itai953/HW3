@@ -1,6 +1,6 @@
 #include "Chopper.h"
 #include "factory.h"
-
+#include <sstream>
 
 registerInFactory<SimObject, Chopper> rc("chopper");
 

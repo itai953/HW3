@@ -5,7 +5,7 @@ class Chopper: public Vehicle{
     string heading();
 public:
     Chopper(const string& name):Vehicle(name){ }
-    void attack(const string& target);
+    void attack(const string& target){}; //TODO implement this
     virtual void update(){}
     static Chopper* createInstance(const string& param){ return new Chopper(param);}
     virtual ostream& broadcastState(ostream& out);

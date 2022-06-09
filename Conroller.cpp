@@ -5,81 +5,58 @@ void Controller::run(int argc, char* argv[]){
         //TODO throw something
     }
     Model::getInstance().init(vector<string>(argv+1,argv+argc));
-    bool go = true;
-    string cmd;
-    while(go){
-        cin >> cmd;
-        go = parseExecCmd(cmd);
+    Console::CMD go = Console::DEFAULT;
+    while(go != Console::EXIT){
+        go = console.getCMD();
+        execute(go);
     }
 }
-bool Controller::parseExecCmd(const string& cmd){
-    if(cmd == "EXIT") return false;
-    stringstream ss(cmd);
-    string first;
-    ss >> first;
-    if(first == "default"){
-        returnDefault();
-    }else if(first == "size"){
-        int s;
-        ss >> s;
-        if(s < AsciiView::MINSIZE || s > AsciiView::MAXSIZE){
-            //TODO throw exception
-        }
-        view->setSize(s);
-    }else if(first == "zoom"){
-        double z;
-        ss >> z;
-        view->setScale(z);
-    }else if(first == "pan"){
-        double x,y;
-        ss >> x;
-        ss >> y;
-        view->setOrigin(x,y);
-    }else if(first == "show"){
-        view->draw(cout);
-    }else if(first == "status"){
-        auto list = Model::getInstance().getSimObjList();
-        for(auto & o: list){
-            o.second->broadcastState(cout);
-        }
-    }else if(first == "go"){
-        Model::getInstance().updateAll();
-    }else if(first == "create"){
-        string name,type,pos;
-        ss >> name;
-        ss >> type;
-        ss >> pos;
-        if(type == "State_trooper"){
-            create(name,pos);
-        }else{
-            double x,y;
-            stringstream pt(pos);
-            pt.ignore();
-            pt >> x;
-            pt.ignore();
-            pt >> y;
-            create(name,x,y);
-        }
-    }else{
-        execVehicleCmd(cmd);
-    }
-    return true;
-}
 
-void Controller::execVehicleCmd(const string& cmd){
-    string name,action;
-    stringstream ss(cmd);
-    ss >> name;
-    ss >> action;
-    if(action == "course"){
-        double heading,speed;
-        ss >> heading >> speed;
-        if(speed == 0){
-            Model::getInstance().setVehicleCourse(name, heading);
-        }else{
-            Model::getInstance().setVehicleCourse(name,heading,speed);
-        }
-    }else if(action == "position"){
-
+void Controller::execute(Console::CMD cmd){
+    switch(cmd){
+        case Console::DEFAULT:
+            view->returnDefault();
+            return;
+        case Console::SIZE:
+            view->setSize(console.getInt());
+            return;
+        case Console::ZOOM:
+            view->setScale(console.getD1());
+            return;
+        case Console::PAN:
+            view->setOrigin(console.getD1(), console.getD2());
+            return;
+        case Console::SHOW:
+            view->draw(cout);
+            return;
+        case Console::CREATE:
+            if(console.getVtype() == Model::TROOPER){
+                Model::getInstance().createVehicle(console.getVehicle(),console.getTarget());
+            }else{
+                Model::getInstance().createVehicle(console.getVehicle(),console.getD1(),console.getD2());
+            }
+            return;
+        case Console::COURSE:
+            if(console.getVtype() == Model::TROOPER){
+                Model::getInstance().setVehicleCourse(console.getVehicle(),console.getD1());
+            }else{
+                Model::getInstance().setVehicleCourse(console.getVehicle(),console.getD1(),console.getD2());
+            }
+            return;
+        case Console::POSITION:
+            if(console.getVtype() == Model::TROOPER){
+                Model::getInstance().setVehiclePosition(console.getVehicle(),console.getD1(),console.getD2());
+            }else{
+                Model::getInstance().setVehiclePosition(console.getVehicle(),console.getD1(),console.getD2(),console.getD3());
+            }
+            return;
+        case Console::DEST:
+            Model::getInstance().setVehicleDestination(console.getVehicle(),console.getTarget());
+            return;
+        case::Console::ATK:
+            Model::getInstance().attack(console.getVehicle(),console.getTarget());
+            return;
+        case::Console::STOP:
+            Model::getInstance().stopVehicle(console.getVehicle());
     }
 }

@@ -17,7 +17,7 @@ public:
   //  void destination( string warehouseName);
     //void position(double x, double y);
    // void course(double _course);
-   // void buildCourse(const string& startWH);
+    void buildCourse(const string& startWH){} //TODO implement
     virtual void update(){};
     static Trooper* createInstance(const string& param){ return new Trooper(param);}
     virtual ostream& broadcastState(ostream&);

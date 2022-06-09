@@ -22,21 +22,28 @@ class Model{
     Model(u_int curr_hour = 0);
 
 public:
-    enum TYPE{WAREHOUSE,TRUCK,TROOPER,CHOPPER};
+    enum TYPE{WAREHOUSE,TRUCK,TROOPER,CHOPPER,NONE};
     static Model& getInstance();
     void readDepotFile(const string& filePath);
+    Model::TYPE getObjectType(const string& name);
     bool containsObj(TYPE t, const string& name);
     const unordered_map<string, shared_ptr<SimObject>>& getSimObjList() const {return simObjList;}
     const unordered_map<string,shared_ptr<Warehouse>>& getWarehouses() const {return warehouses;}
     const unordered_map<string,shared_ptr<Vehicle>>& getVehicles() const { return vehicles;}
     void init(vector<string>&& argv);
     static float hourToDecimal(string& hour);
-    void setVehicleCourse(const string& name, double course, double speed){vehicles[name]->setCourse(course);
-                                                                            vehicles[name]->setSpeed(speed);};
-    void setVehicleCourse(const string& name, double course){vehicles[name]->setCourse(course);};
     float getTime(){return time;}
     void setTime(float _time){time = _time;}
     void updateAll();
+    void createVehicle(const string& name, const string& target);
+    void createVehicle(const string& name, double x, double y);
+    void setVehicleCourse(const string& name, double course);
+    void setVehicleCourse(const string& name, double course, double speed);
+    void setVehiclePosition(const string& name, double x, double y);
+    void setVehiclePosition(const string& name, double x, double y, double speed);
+    void setVehicleDestination(const string& name,const string& WHname);
+    void attack(const string& name, const string& target);
+    void stopVehicle(const string& name);
     shared_ptr<Warehouse> getWarehousePointer(string& name){return static_pointer_cast<Warehouse>(warehouses[name]);}
 };
 

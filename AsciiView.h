@@ -26,10 +26,11 @@ public:
     void setOrigin(double x, double y){origin.x = x; origin.y = y;}
     
     //draw map to ostream out
-    ostream& draw(ostream& out);
+    ostream& draw(ostream& out){return out;} //TODO implement
     
     //clear map
     void clear();
+    void returnDefault(){} //TODO implement
 };
 
 
