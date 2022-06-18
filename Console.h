@@ -9,7 +9,7 @@ class Console{
     int n,vType;
 public:
     enum CMD{DEFAULT,SIZE,PAN,ZOOM,SHOW,GO,STATUS,CREATE,COURSE,
-    POSITION,DEST,ATK,STOP,EXIT};
+            POSITION,DEST,ATK,STOP,EXIT};
     CMD getCMD();
     string getVehicle() const {return vehicle;}
     string getTarget() const { return target;}

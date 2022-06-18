@@ -93,6 +93,7 @@ void Model::readDepotFile(const string& filePath){
 }
 
 void Model::updateAll(){
+    time++;
     for(auto &o: simObjList){
         o.second->update();
     }

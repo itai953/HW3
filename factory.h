@@ -46,10 +46,10 @@ public:
     }
 
     /// Create a new class of the type specified by className.
-    std::unique_ptr<manufacturedObj> create(const classIDKey &className,
+    std::shared_ptr<manufacturedObj> create(const classIDKey &className,
 						const std::string &param) const
         {   
-            std::unique_ptr<manufacturedObj> ret(nullptr);
+            std::shared_ptr<manufacturedObj> ret(nullptr);
             typename FN_REGISTRY::const_iterator regEntry = registry.find(className);
             if(regEntry != registry.end()){
                 return (*regEntry).second(param);

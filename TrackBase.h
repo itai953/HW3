@@ -11,6 +11,7 @@ protected:
     u_int status;
     bool heading_to;
     double course;
+    double normalDeg;
     Point position; //target
 public:
     enum STATUS{STOPPED,PARKED,OFFROAD,MOVING};
@@ -23,6 +24,7 @@ public:
     void setCourse(double _course){} //TODO implement
     void setPosition(double x, double y){} //TODO implement
     void setSpeed(double _speed){speed = _speed;}
+    void move(float time);
 };
 
 

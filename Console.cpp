@@ -93,7 +93,7 @@ void Console::getViewCMD(Console::CMD cm){
 void Console::getVehicleCMD(Console::CMD cm){
     switch(cm){
         case POSITION:
-            cin >> d1;
+            cin >> d1;  //TODO check cin.bad
             cin >> d2;
             if(vType == Model::CHOPPER) cin >> d3;
             return;

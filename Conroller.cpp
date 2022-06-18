@@ -58,5 +58,7 @@ void Controller::execute(Console::CMD cmd){
             return;
         case::Console::STOP:
             Model::getInstance().stopVehicle(console.getVehicle());
+        case Console::GO:
+            Model::getInstance().updateAll();
     }
 }

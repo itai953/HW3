@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <sstream>
 #include <fstream>
+#include <cstdlib>
 #include "Trooper.h"
  #include "Chopper.h"
 #include "Warehouse.h"
