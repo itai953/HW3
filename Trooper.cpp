@@ -37,3 +37,23 @@ ostream& Trooper::broadcastState(ostream& out){
     }
     return out;
 }
+
+void Trooper::buildCourse(const string& startWH){
+    vector<shared_ptr<Warehouse>>&& warehouses = Model::getInstance().getWarehouses();
+    
+    shared_ptr<Warehouse> curr = Model::getInstance().getWarehousePointer(startWH);
+    //iterate over warehouses and find the closest warhouse to the last warehouse in patrol
+    //which you didn't "visit" yet and add it to patrol and remove it from warehouses. 
+    //If you visited all warehouses, then you are done.
+    while(!warehouses.empty()){
+        sort(warehouses.begin(), warehouses.end(), 
+        [&](shared_ptr<Warehouse> a, shared_ptr<Warehouse> b){
+            return getDistance(a->getLocation(),curr->getLocation()) < getDistance(b->getLocation(),curr->getLocation());
+        });
+        patrol.push_back(warehouses[0]);
+        curr = warehouses[0];
+        warehouses.erase(warehouses.begin());
+    
+    }
+    setPosition(patrol.front()->getLocation());
+}

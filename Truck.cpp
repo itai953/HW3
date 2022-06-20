@@ -107,13 +107,13 @@ void Truck::truckFileReader() {
 
 }
 
-void Truck::countArrDep(int& arr, int& dep,float time){
-    for(auto& s : stops){
-        if(s.arrival <= time) arr++;
-        if(s.departure <= time) dep++;
-        else break;
-    }
-}
+// void Truck::countArrDep(int& arr, int& dep,float time){
+//     for(auto& s : stops){
+//         if(s.arrival <= time) arr++;
+//         if(s.departure <= time) dep++;
+//         else break;
+//     }
+// }
 
 void Truck::update(){
     float time = MODEL().getTime();
@@ -134,8 +134,9 @@ void Truck::updateHelper(float currTime, float nextTime){
     else if(stops.front().departure <= nextTime){
         float t = stops.front().departure;
         stops.pop_front();
-        normalDeg = calculateAngle(curLocation,stops.front().nextStop->getLocation());
-        course = calculateCourse(curLocation,stops.front().nextStop->getLocation());
+        setPosition(stops.front().nextStop->getLocation());
+        // normalDeg = calculateAngle(curLocation,stops.front().nextStop->getLocation());
+        // course = normalizeAngle(normalDeg);
         speed = calculateSpeed(curLocation,stops.front().nextStop->getLocation(),stops.front().arrival-t);
         status = TrackBase::MOVING;
         updateHelper(t,nextTime);

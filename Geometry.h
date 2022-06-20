@@ -32,9 +32,11 @@ typedef struct Polar_vector {
 	double theta;
 } Polar_vector;
 
-double calculateCourse(const Point& p1,const Point& p2);
+// double calculateCourse(const Point& p1,const Point& p2);
 double calculateSpeed(const Point& p1, const Point& p2, double time);
 double calculateAngle(const Point& p1, const Point& p2);
+double normalizeAngle(double theta);
+double getDistance(const Point& p1, const Point& p2);
 
 
 #endif

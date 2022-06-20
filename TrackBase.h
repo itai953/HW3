@@ -21,9 +21,12 @@ public:
     double getCourse(){return course;}
     u_int getStatus(){return status;}
     void setStatus(u_int _status){status = _status;} //TODO write real imp
-    void setCourse(double _course){} //TODO implement
-    void setPosition(double x, double y){} //TODO implement
+    void setCourse(double _course);
+    void setNormalDeg(double theta);
+    void setPosition(double x, double y);
+    void setPosition(Point p){setPosition(p.x,p.y);}
     void setSpeed(double _speed){speed = _speed;}
+    void setCurLocation(const Point& p){curLocation = p;}
     void move(float time);
 };
 

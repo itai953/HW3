@@ -74,30 +74,35 @@ bool Point::operator==(const Point & rhs)
 }
 
 
-double calculateCourse(const Point& p1,const Point& p2){
-	if(p1.x == p2.x){return (p1.y > p2.y)?180:0;}
-	if(p1.y == p2.y){return (p1.x > p2.x)?270:90;}
-	double theta = atan2(abs(p1.y-p2.y),abs(p1.x-p2.x))*180/pi;
-	if(p1.x < p2.x && p1.y < p2.y){return 90- theta;}
-	if(p1.x < p2.x && p1.y > p2.y){return 180 -theta;}
-	if(p1.x > p2.x && p1.y > p2.y){return 270 - theta;}
-	if(p1.x > p2.x && p1.y < p2.y){return 360 - theta;}
-	return 0;
-}
+// double calculateCourse(const Point& p1,const Point& p2){
+// 	if(p1.x == p2.x){return (p1.y > p2.y)?180:0;}
+// 	if(p1.y == p2.y){return (p1.x > p2.x)?270:90;}
+// 	double theta = atan2(abs(p1.y-p2.y),abs(p1.x-p2.x))*180/pi;
+// 	if(p1.x < p2.x && p1.y < p2.y){return 90- theta;}
+// 	if(p1.x < p2.x && p1.y > p2.y){return 180 -theta;}
+// 	if(p1.x > p2.x && p1.y > p2.y){return 270 - theta;}
+// 	if(p1.x > p2.x && p1.y < p2.y){return 360 - theta;}
+// 	return 0;
+// }
 
-double distance(const Point& p1, const Point& p2){
+double getDistance(const Point& p1, const Point& p2){
 	return sqrt((p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.x) * (p1.y - p2.y));
 }
 
 double calculateSpeed(const Point& p1, const Point& p2, double time){
-	double dist = distance(p1,p2);
+	double dist = getDistance(p1,p2);
 	return (dist*100)/time;
 }
 
 double calculateAngle(const Point& p1, const Point& p2){
-	double d_x = p1.x - p2.x;
-	double d_y = p1.y - p2.y;
-	if(d_x == 0){return (d_y < 0)? 90:270;}
-	if(d_y == 0){return (d_x < 0)? 0:180;}
-	return atan2(d_y,d_x)*180/pi;
+	Cartesian_vector cv;
+	cv.delta_x = p2.x - p1.x;
+	cv.delta_y = p2.y - p1.y;
+	Polar_vector pv(cv);
+	return to_degrees(pv.theta);
+}
+
+double normalizeAngle(double theta){
+	double res = 450-theta;
+	return fmod(res,360);
 }

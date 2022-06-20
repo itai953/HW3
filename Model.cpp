@@ -39,6 +39,7 @@ void Model::init(vector<string>&& argv){
             }
             i--;
         }
+
     }
 }
 
@@ -121,6 +122,7 @@ void Model::createVehicle(const string& name, const string& target){
     }
     vehicles[name] = genericFactory<Vehicle>::instance().create("trooper",name);
     simObjList[name] = dynamic_pointer_cast<SimObject>(vehicles[name]);
+    vehicles[name]->setCurLocation(warehouses[target]->getLocation());
     dynamic_pointer_cast<Trooper>(vehicles[name])->buildCourse(target);
 }
 void Model::createVehicle(const string& name, double x, double y){
@@ -181,4 +183,12 @@ void Model::stopVehicle(const string& name){
         //TODO throw
     }
     vehicles[name]->setStatus(0);
+}
+
+vector<shared_ptr<Warehouse>> Model::getWarehouses() const{
+    vector<shared_ptr<Warehouse>> vec;
+    for (auto it=warehouses.begin(); it!=warehouses.end(); ++it) {
+      vec.push_back( it->second );
+    }
+    return vec;
 }
