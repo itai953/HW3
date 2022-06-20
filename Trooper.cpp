@@ -48,12 +48,63 @@ void Trooper::buildCourse(const string& startWH){
     while(!warehouses.empty()){
         sort(warehouses.begin(), warehouses.end(), 
         [&](shared_ptr<Warehouse> a, shared_ptr<Warehouse> b){
-            return getDistance(a->getLocation(),curr->getLocation()) < getDistance(b->getLocation(),curr->getLocation());
+            double da,db;
+            da = getDistance(a->getLocation(),curr->getLocation());
+            db = getDistance(b->getLocation(),curr->getLocation());
+            if(da == db){
+                return a->getName() < b->getName();
+            }else {
+                return da < db;
+            }
         });
         patrol.push_back(warehouses[0]);
         curr = warehouses[0];
         warehouses.erase(warehouses.begin());
     
     }
-    setPosition(patrol.front()->getLocation());
+    patrol.push_back(patrol.front());
+    if(curLocation==patrol.front()->getLocation()){
+        patrol.pop_front();
+    }
+    TrackBase::setPosition(patrol.front()->getLocation());
+}
+
+void Trooper::updateHelper(float currTime, float nextTime){
+    if(patrol.empty()){
+        status = TrackBase::PARKED;
+        speed = 0;
+    }
+    if(getDistance(curLocation,patrol.front()->getLocation()) > 0.9){
+        move(nextTime-currTime);
+    }
+    else{
+        double time = getDistance(curLocation,patrol.front()->getLocation()) / speed;
+        curLocation = patrol.front()->getLocation();
+        patrol.pop_front();
+        TrackBase::setPosition(patrol.front()->getLocation());
+        updateHelper(currTime+time,nextTime);
+    }
+}
+
+void Trooper::update(){
+    if(patrol.empty()){
+        move();
+    }  
+    else{
+        float time = Model::getInstance().getTime();
+        updateHelper(time-1,time);
+    }
+}
+
+void Trooper::setCourse(double theta){
+    heading_to = false;
+    patrol.clear();
+    TrackBase::setCourse(theta);
+}
+
+
+void Trooper::setPosition(double x, double y){
+    heading_to = false;
+    patrol.clear();
+    TrackBase::setPosition(x,y);
 }

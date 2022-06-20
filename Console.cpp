@@ -17,6 +17,8 @@ unordered_map<string,Console::CMD> Console::vehicleCMDs{
 Console::CMD Console::getCMD(){
     string token;
     CMD cm;
+    cout << setprecision(0) <<"Time " << Model::getInstance().getTime() << ": Enter command: ";
+    cout << setprecision(2);
     cin >> token;
     if(token == "EXIT") return EXIT;
     if(viewCMDs.find(token) != viewCMDs.end()){

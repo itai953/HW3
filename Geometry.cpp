@@ -60,7 +60,7 @@ Point::Point()
 
 void Point::print() const
 {
-	cout << setprecision(2) << "(" << x << ", " << y << ")";
+	cout << "(" << x << ", " << y << ")";
 }
 
 ostream& operator<<(ostream&os, const Point& p){

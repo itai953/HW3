@@ -98,7 +98,27 @@ void Model::updateAll(){
     for(auto &o: simObjList){
         o.second->update();
     }
+    for(auto c:choppers){
+        string target_s = c->getAttackTarget();
+        if(target_s=="") continue;
+        shared_ptr<Truck> target = dynamic_pointer_cast<Truck>(vehicles[target_s]);
+        int range = c->getRange();
+        if(getDistance(c->getCurLocation(),target->getCurLocation())*100 > range
+          || trooperInRadius(target->getLocation())){
+            if(range>2) c->setRange(range-1);
+            cout << c->getName() << " attack failed\n";
+        }
+        else{
+            target->attack();
+            if(range < 20) c->setRange(range+1);
+            cout << c->getName() << " attack success\n";
+        }
+        c->attack("");
+        c->setCurLocation(target->getLocation());
+        c->setStatus(TrackBase::STOPPED);
+    }
 }
+
 
 Model::TYPE Model::getObjectType(const string& name){
     auto it = simObjList.find(name);
@@ -123,7 +143,9 @@ void Model::createVehicle(const string& name, const string& target){
     vehicles[name] = genericFactory<Vehicle>::instance().create("trooper",name);
     simObjList[name] = dynamic_pointer_cast<SimObject>(vehicles[name]);
     vehicles[name]->setCurLocation(warehouses[target]->getLocation());
+    vehicles[name]->setSpeed(90);
     dynamic_pointer_cast<Trooper>(vehicles[name])->buildCourse(target);
+    troopers.push_back(dynamic_pointer_cast<Trooper>(vehicles[name]));
 }
 void Model::createVehicle(const string& name, double x, double y){
     if(simObjList.find(name) != simObjList.end()){
@@ -131,7 +153,10 @@ void Model::createVehicle(const string& name, double x, double y){
     }
     vehicles[name] = genericFactory<Vehicle>::instance().create("chopper",name);
     simObjList[name] = dynamic_pointer_cast<SimObject>(vehicles[name]);
-    vehicles[name]->setPosition(x,y);
+    vehicles[name]->setCurLocation(Point(x,y));
+    vehicles[name]->setSpeed(0);
+    vehicles[name]->setStatus(TrackBase::PARKED);
+    choppers.push_back(dynamic_pointer_cast<Chopper>(vehicles[name]));
 }
 
 void Model::setVehicleCourse(const string& name, double course){
@@ -191,4 +216,21 @@ vector<shared_ptr<Warehouse>> Model::getWarehouses() const{
       vec.push_back( it->second );
     }
     return vec;
+}
+
+
+bool Model::trooperInRadius(const Point& p,double r){
+    for(auto t:troopers){
+        if(getDistance(t->getCurLocation(),p)*100<=r){
+            return true;
+        }
+    }
+    return false;
+}
+
+
+void Model::status() const{
+    for(auto o:simObjList){
+        o.second->broadcastState(cout);
+    }
 }

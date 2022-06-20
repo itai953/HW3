@@ -21,13 +21,12 @@ class Truck : public Vehicle
     list<StopNode> stops;
     void readTruckFileLine(string &line,u_int lineNumber);
     void readFirstLine(string &line);
-    void truckFileReader();
     void updateHelper(float currTime, float nextTime);
     public:
         Truck(const string& name):Vehicle(name),numCrates(0){}
         void init(const string& fPath);
         static Truck* createInstance(const string& name){return new Truck(name);}
-        // void attack();
+        void attack();
         void update();
         virtual ostream& broadcastState(ostream& out);
         // virtual const Point& getLocation() const{return Point(); }

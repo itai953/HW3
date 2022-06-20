@@ -1,5 +1,6 @@
 #include "Chopper.h"
 #include "factory.h"
+#include "Model.h"
 #include <sstream>
 
 registerInFactory<Vehicle, Chopper> rc("chopper");
@@ -37,3 +38,4 @@ ostream& Chopper::broadcastState(ostream& out){
     }  
     return out;
 }
+

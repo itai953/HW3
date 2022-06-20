@@ -5,6 +5,8 @@
 
 
 int main(int argc, char** argv){
+    cout.setf(ios::fixed,ios::floatfield);
+    cout.precision(2);
     Controller controller;
     controller.run(argc,argv);
     auto objects = Model::getInstance().getSimObjList();

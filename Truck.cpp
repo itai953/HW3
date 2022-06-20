@@ -20,6 +20,11 @@ void Truck::init(const string &fPath) {
     u_int line_number = 1;
     while (getline(file, line)) {
         readTruckFileLine(line,++line_number);}
+    curLocation = stops.front().nextStop->getLocation();
+    *(stops.front().nextStop)-=numCrates;
+    status = PARKED;
+    // stops.pop_front();
+    // setPosition(curLocation);
 }
 
 void Truck::readFirstLine(string &line){
@@ -49,6 +54,7 @@ void Truck::readFirstLine(string &line){
     }
     shared_ptr<Warehouse> warehouse = Model::getInstance().getWarehousePointer(originName);
     stops.emplace_back(warehouse, 0, startTime, 0);
+  
 }
 
 void Truck::readTruckFileLine( string &line, u_int lineNumber){
@@ -74,9 +80,10 @@ void Truck::readTruckFileLine( string &line, u_int lineNumber){
     float arrival =  Model::hourToDecimal(arrival_s);
     float departure = Model::hourToDecimal(departure_s);
     u_int amount = stoi(amount_s);
+    numCrates+=amount;
     shared_ptr<Warehouse> warehouse = Model::getInstance().getWarehousePointer(name);
     stops.emplace_back(warehouse, arrival, departure, amount);
-    numCrates+=amount;
+    
 }
 
 
@@ -89,31 +96,22 @@ ostream& Truck::broadcastState(ostream& out){
     }
     if (Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::STOPPED)
     {
-        out<<"stopped at: "<<Vehicle::TrackBase::curLocation;
+        out<<" stopped at: "<<Vehicle::TrackBase::curLocation;
     }
      if (Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::PARKED)
     {
-        out<<"parked at: "<<Vehicle::TrackBase::curLocation;
+        out<<" parked at: "<<Vehicle::TrackBase::curLocation;
     }
      if (Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::OFFROAD)
     {
-        out<<"off road at: "<<Vehicle::TrackBase::curLocation;
+        out<<" off road at: "<<Vehicle::TrackBase::curLocation;
     }  
+    out<<endl;
     return out;
 }
 
 
-void Truck::truckFileReader() {
 
-}
-
-// void Truck::countArrDep(int& arr, int& dep,float time){
-//     for(auto& s : stops){
-//         if(s.arrival <= time) arr++;
-//         if(s.departure <= time) dep++;
-//         else break;
-//     }
-// }
 
 void Truck::update(){
     float time = MODEL().getTime();
@@ -126,7 +124,8 @@ void Truck::updateHelper(float currTime, float nextTime){
         move(nextTime - currTime);
     }  else if(currTime <= stops.front().arrival){
         curLocation = stops.front().nextStop->getLocation();
-        *(stops.front().nextStop)+=stops.front().qty;        numCrates -= stops.front().qty;
+        *(stops.front().nextStop)+=stops.front().qty;       
+        numCrates -= stops.front().qty;
         status = TrackBase::PARKED;
         updateHelper(stops.front().arrival+0.01,nextTime);
     }
@@ -143,5 +142,10 @@ void Truck::updateHelper(float currTime, float nextTime){
     }
 }
 
+
+void Truck::attack(){
+    status = TrackBase::OFFROAD;
+    numCrates = 0;
+}
 
 

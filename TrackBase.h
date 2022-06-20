@@ -15,8 +15,7 @@ protected:
     Point position; //target
 public:
     enum STATUS{STOPPED,PARKED,OFFROAD,MOVING};
-    TrackBase(){ };
-    TrackBase(double speed, Point curLoc,double _course,Point target = Point(0,0),int status = STOPPED);
+    TrackBase():speed(0),status(PARKED){ }
     const Point& getCurLocation() const{return curLocation;}
     double getCourse(){return course;}
     u_int getStatus(){return status;}
@@ -27,7 +26,7 @@ public:
     void setPosition(Point p){setPosition(p.x,p.y);}
     void setSpeed(double _speed){speed = _speed;}
     void setCurLocation(const Point& p){curLocation = p;}
-    void move(float time);
+    void move(float time =1);
 };
 
 
