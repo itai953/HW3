@@ -7,8 +7,8 @@ void TrackBase::move(float time){
 }
 
 
-
 void TrackBase::setCourse(double _course){
+
     course = _course;
     normalDeg = normalizeAngle(course);
 }

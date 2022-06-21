@@ -14,7 +14,10 @@ unordered_map<string,Console::CMD> Console::vehicleCMDs{
                                                     {"attack",ATK},
                                                     {"destination",DEST}
                                                 };
+                                    
 Console::CMD Console::getCMD(){
+    //this function will get the command from the user
+    //and return the command enum
     string token;
     CMD cm;
     cout << setprecision(0) <<"Time " << Model::getInstance().getTime() << ": Enter command: ";

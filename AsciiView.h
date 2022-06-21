@@ -2,6 +2,8 @@
 #define ASCIIVIEW_H
 #include "Model.h"
 #include "Geometry.h"
+#include <unordered_map>
+#include <list>
 
 /* 
  * class AsciiView will print a matrix of ascii characters representing the current status of the map
@@ -15,6 +17,8 @@ using u_int = unsigned int;
 class AsciiView{
     u_int scale,size;
     Point origin;
+    unordered_map<int,unordered_map<int,list<string>>> map;
+    vector<shared_ptr<SimObject>> getObjectsInMap();
 public:
     enum{MINSIZE = 6, MAXSIZE = 30};
     //c'tor
@@ -26,8 +30,9 @@ public:
     void setOrigin(double x, double y){origin.x = x; origin.y = y;}
     
     //draw map to ostream out
-    ostream& draw(ostream& out){return out;} //TODO implement
+    ostream& draw(ostream& out); //TODO implement
     
+    void push(Point prev, Point cur,string s);
     //clear map
     void clear();
     void returnDefault(){} //TODO implement
