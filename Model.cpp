@@ -104,7 +104,8 @@ void Model::updateAll(){
         shared_ptr<Truck> target = dynamic_pointer_cast<Truck>(vehicles[target_s]);
         int range = c->getRange();
         if(getDistance(c->getCurLocation(),target->getCurLocation())*100 > range
-          || trooperInRadius(target->getLocation())){
+          || trooperInRadius(target->getLocation()))
+        {
             if(range>2) c->setRange(range-1);
             cout << c->getName() << " attack failed\n";
         }

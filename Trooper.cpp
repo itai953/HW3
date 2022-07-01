@@ -5,8 +5,9 @@ registerInFactory<Vehicle, Trooper> rt("trooper");
 
 
 string Trooper::heading(){
-    string st = "Heading";
-    stringstream ss(st);
+    // string st = "Heading";
+    stringstream ss;
+    ss << " heading";
     if(Vehicle::TrackBase::heading_to){
         ss<<" to "<<Vehicle::TrackBase::position<<",";
     }
@@ -17,10 +18,10 @@ string Trooper::heading(){
 }
 
 ostream& Trooper::broadcastState(ostream& out){
-    out<<"State_trooper "<<Vehicle::SimObject::name;
+    out<<"State_trooper "<<Vehicle::SimObject::name<<" ";
     if(Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::MOVING){
         out<<" at "<<Vehicle::TrackBase::curLocation;
-        out<<heading()<<" speed " <<speed<<"km/h\n";
+        out<<heading()<<" speed " <<speed<<"km/h";
 
     }
     if (Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::STOPPED)
@@ -35,7 +36,7 @@ ostream& Trooper::broadcastState(ostream& out){
     {
         out<<"off road at: "<<Vehicle::TrackBase::curLocation;
     }
-    return out;
+    return out<<"\n";
 }
 
 void Trooper::buildCourse(const string& startWH){
@@ -45,6 +46,7 @@ void Trooper::buildCourse(const string& startWH){
     //iterate over warehouses and find the closest warhouse to the last warehouse in patrol
     //which you didn't "visit" yet and add it to patrol and remove it from warehouses. 
     //If you visited all warehouses, then you are done.
+    patrol.clear();
     while(!warehouses.empty()){
         sort(warehouses.begin(), warehouses.end(), 
         [&](shared_ptr<Warehouse> a, shared_ptr<Warehouse> b){
@@ -74,11 +76,12 @@ void Trooper::updateHelper(float currTime, float nextTime){
         status = TrackBase::PARKED;
         speed = 0;
     }
-    if(getDistance(curLocation,patrol.front()->getLocation()) > 0.9){
+    else if(getDistance(curLocation,patrol.front()->getLocation()) > 0.9){
+        status = MOVING;
         move(nextTime-currTime);
     }
     else{
-        double time = getDistance(curLocation,patrol.front()->getLocation()) / speed;
+        double time = (getDistance(curLocation,patrol.front()->getLocation()) * 100) / speed;
         curLocation = patrol.front()->getLocation();
         patrol.pop_front();
         TrackBase::setPosition(patrol.front()->getLocation());

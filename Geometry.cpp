@@ -86,7 +86,7 @@ bool Point::operator==(const Point & rhs)
 // }
 
 double getDistance(const Point& p1, const Point& p2){
-	return sqrt((p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.x) * (p1.y - p2.y));
+	return sqrt((p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
 }
 
 double calculateSpeed(const Point& p1, const Point& p2, double time){

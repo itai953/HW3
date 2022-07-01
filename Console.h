@@ -8,6 +8,13 @@ class Console{
     double d1,d2,d3;
     int n,vType;
 public:
+    class InvalidInputException
+    {
+        string msg;
+    public:
+        InvalidInputException(const string& e):msg(e){ }
+        string getMessege() const {return msg;}
+    };
     enum CMD{DEFAULT,SIZE,PAN,ZOOM,SHOW,GO,STATUS,CREATE,COURSE,
             POSITION,DEST,ATK,STOP,EXIT};
     CMD getCMD();

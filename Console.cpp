@@ -1,4 +1,5 @@
 #include "Console.h"
+#include "AsciiView.h"
 
 unordered_map<string,Console::CMD> Console::viewCMDs{
                                                 {"size",SIZE},
@@ -36,7 +37,7 @@ Console::CMD Console::getCMD(){
         string name,type,pos;
         cin >> name >> type >> pos;
         if(name.size() > 12){
-            //TODO throw something
+            throw InvalidInputException("ERROR: vehiche name is too long");
         }
         vehicle = name;
         if(type == "State_trooper"){
@@ -52,18 +53,18 @@ Console::CMD Console::getCMD(){
             ss >> d2;
             return cm;
         }else{
-            //TODO throw something
+            throw InvalidInputException("ERROR: create must have vehicle type Chopper or State_trooper");
         }
     }
     Model::TYPE type = Model::getInstance().getObjectType(token);
-    if(type == Model::WAREHOUSE || type == Model::NONE){
-        //TODO throw something
+    if(type != Model::TROOPER && type != Model::CHOPPER){
+       throw InvalidInputException("ERROR: expected name of vehicle of type State_trooper or chopper");
     }
     vehicle = token;
     vType = type;
     cin >> token;
     if(vehicleCMDs.find(token) == vehicleCMDs.end()){
-        //TODO throw somwthing
+       throw InvalidInputException("ERROR: unknown command");
     }
     cm = vehicleCMDs[token];
     getVehicleCMD(cm);
@@ -74,23 +75,27 @@ void Console::getViewCMD(Console::CMD cm){
         case PAN:
             cin >> d1;
             if(cin.bad()){
-                //TODO throw something
+                throw InvalidInputException("ERROR: expected double");
             }
             cin >> d2;
             if(cin.bad()){
-                //TODO throw something
+                throw InvalidInputException("ERROR: expected double");
             }
             return;
         case ZOOM:
             cin >> d1;
             if(cin.bad()){
-                //TODO throw something
+                throw InvalidInputException("ERROR: expected double");
             }
             return;
         case SIZE:
             cin >> n;
             if(cin.bad()){
-                //TODO throw something
+               throw InvalidInputException("ERROR: expected int");
+            }
+            if(n < AsciiView::MINSIZE || n > AsciiView::MAXSIZE)
+            {
+                throw InvalidInputException("ERROR: view size must be int in range [6,30]");
             }
             return;
     }
@@ -98,17 +103,41 @@ void Console::getViewCMD(Console::CMD cm){
 void Console::getVehicleCMD(Console::CMD cm){
     switch(cm){
         case POSITION:
-            cin >> d1;  //TODO check cin.bad
+            cin >> d1;
+            if(cin.bad()){
+                throw InvalidInputException("ERROR: expected double");
+            }
             cin >> d2;
-            if(vType == Model::CHOPPER) cin >> d3;
+            if(cin.bad()){
+                throw InvalidInputException("ERROR: expected double");
+            }
+            
+            if(vType == Model::CHOPPER){
+                if(cin.peek() == '\n')
+                    throw InvalidInputException("ERROR: expected another double");
+                cin >> d3;
+                if(cin.bad())
+                {
+                    throw InvalidInputException("ERROR: expected double");
+                }
+            }
             return;
         case COURSE:
             cin >> d1;
-            if(vType == Model::CHOPPER) cin >> d2;
+            if(vType == Model::CHOPPER)
+            {
+                if(cin.peek() == '\n')
+                    throw InvalidInputException("ERROR: expected another double");
+                cin >> d2;
+                if(cin.bad())
+                {
+                    throw InvalidInputException("ERROR: expected double");
+                };
+            }
             return;
         case DEST:
             if(vType != Model::TROOPER){
-                //TODO throw something
+                throw InvalidInputException("ERROR: you can set destanaiton only to an object of State_Trooper type ");
             }
             cin >> target;
             return;

@@ -114,25 +114,31 @@ ostream& Truck::broadcastState(ostream& out){
 
 
 void Truck::update(){
+    if(status == STOPPED)
+        return;
     float time = MODEL().getTime();
     updateHelper(time-1, time);
-
 }
-//todo very risky function check
+
 void Truck::updateHelper(float currTime, float nextTime){
     if(stops.front().arrival > nextTime){
         move(nextTime - currTime);
-    }  else if(currTime <= stops.front().arrival){
+    }else if(currTime < stops.front().arrival ){
         curLocation = stops.front().nextStop->getLocation();
         *(stops.front().nextStop)+=stops.front().qty;       
         numCrates -= stops.front().qty;
         status = TrackBase::PARKED;
-        updateHelper(stops.front().arrival+0.01,nextTime);
+        updateHelper(stops.front().arrival,nextTime);
     }
 
-    else if(stops.front().departure <= nextTime){
+    else if(stops.front().departure < nextTime){
         float t = stops.front().departure;
         stops.pop_front();
+        if(stops.empty())
+        {
+            status = STOPPED;
+            return;
+        }
         setPosition(stops.front().nextStop->getLocation());
         // normalDeg = calculateAngle(curLocation,stops.front().nextStop->getLocation());
         // course = normalizeAngle(normalDeg);

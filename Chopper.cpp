@@ -18,7 +18,7 @@ string Chopper::heading(){
 }
 
 ostream& Chopper::broadcastState(ostream& out){
-    out<<"Chopper "<<Vehicle::SimObject::name;
+    out<<"Chopper "<<Vehicle::SimObject::name<<" ";
     if(Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::MOVING){
         out<<" at "<<Vehicle::TrackBase::curLocation;
         out<<heading()<<" speed " <<speed<<"km/h\n";
@@ -36,6 +36,6 @@ ostream& Chopper::broadcastState(ostream& out){
     {
         out<<"off road at: "<<Vehicle::TrackBase::curLocation;
     }  
-    return out;
+    return out<<"\n";
 }
 

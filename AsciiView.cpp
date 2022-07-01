@@ -1,6 +1,8 @@
 #include "AsciiView.h"
 #include <cmath>
 #include <algorithm>
+
+
 ostream& AsciiView::draw(ostream& out){
     double y1,y2,x1,x2;
     y1 = origin.y + scale*size;

@@ -1,6 +1,7 @@
 #include "TrackBase.h"
 #include <cmath>
 void TrackBase::move(float time){
+    if(status == STOPPED) return;
     double delta = (speed*time)/100;
     curLocation.x += cos(to_radians(normalDeg))*delta;
     curLocation.y += sin(to_radians(normalDeg))*delta;

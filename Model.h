@@ -10,6 +10,8 @@
 #include "Chopper.h"
 #include "Warehouse.h"
 
+class AsciiView;
+
 class Truck;
 class Trooper;
 using u_int = unsigned int;
@@ -23,7 +25,7 @@ class Model{
     vector<shared_ptr<Chopper>> choppers;
     vector<shared_ptr<Trooper>> troopers;
     Model(u_int curr_hour = 0);
-
+    shared_ptr<AsciiView> view;
 public:
     enum TYPE{WAREHOUSE,TRUCK,TROOPER,CHOPPER,NONE};
     static Model& getInstance();
@@ -37,7 +39,7 @@ public:
     const unordered_map<string,shared_ptr<Vehicle>>& getVehicles() const { return vehicles;}
     void init(vector<string>&& argv);
     static float hourToDecimal(string& hour);
-    
+    void attach(shared_ptr<AsciiView> v){ view = v;}
     float getTime(){return time;}
     void setTime(float _time){time = _time;}
     void updateAll();

@@ -1,9 +1,9 @@
 #ifndef ASCIIVIEW_H
 #define ASCIIVIEW_H
-#include "Model.h"
 #include "Geometry.h"
 #include <unordered_map>
 #include <list>
+#include "Model.h"
 
 /* 
  * class AsciiView will print a matrix of ascii characters representing the current status of the map

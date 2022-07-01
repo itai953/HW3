@@ -2,4 +2,4 @@
 CMakeLists.txt
 .idea
 cmake-build-debug
-prog.exe
+*.exe
