@@ -2,13 +2,26 @@
 
 void Controller::run(int argc, char* argv[]){
     if(argc < 5){
-        //TODO throw something
+        cerr << "ERROR: not enough arguments for program";
+        exit(1);
     }
     Model::getInstance().init(vector<string>(argv+1,argv+argc));
     Console::CMD go = Console::DEFAULT;
+    cout << "Game starting, at any point input EXIT to quit\n";
     while(go != Console::EXIT){
-        go = console.getCMD();
-        execute(go);
+        try
+        {
+            go = console.getCMD();
+            execute(go);
+        }
+        catch (Console::InvalidInputException& e)
+        {
+            cerr << e.getMessege() << endl;
+        }
+        catch (Model::invalidCommandException& e)
+        {
+            cerr << e.getMsg() << endl;
+        }
     }
 }
 

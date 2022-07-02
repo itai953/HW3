@@ -74,16 +74,6 @@ bool Point::operator==(const Point & rhs)
 }
 
 
-// double calculateCourse(const Point& p1,const Point& p2){
-// 	if(p1.x == p2.x){return (p1.y > p2.y)?180:0;}
-// 	if(p1.y == p2.y){return (p1.x > p2.x)?270:90;}
-// 	double theta = atan2(abs(p1.y-p2.y),abs(p1.x-p2.x))*180/pi;
-// 	if(p1.x < p2.x && p1.y < p2.y){return 90- theta;}
-// 	if(p1.x < p2.x && p1.y > p2.y){return 180 -theta;}
-// 	if(p1.x > p2.x && p1.y > p2.y){return 270 - theta;}
-// 	if(p1.x > p2.x && p1.y < p2.y){return 360 - theta;}
-// 	return 0;
-// }
 
 double getDistance(const Point& p1, const Point& p2){
 	return sqrt((p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));

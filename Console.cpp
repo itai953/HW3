@@ -21,41 +21,53 @@ Console::CMD Console::getCMD(){
     //and return the command enum
     string token;
     CMD cm;
+    //prompt
     cout << setprecision(0) <<"Time " << Model::getInstance().getTime() << ": Enter command: ";
     cout << setprecision(2);
     cin >> token;
     if(token == "EXIT") return EXIT;
+
+    //check if token exists in the view commands map
     if(viewCMDs.find(token) != viewCMDs.end()){
         cm = viewCMDs[token];
-        getViewCMD(cm);
+        getViewCMD(cm); //get the input requires for the command
         return cm;
     }
     else if(token == "go") return GO;
     else if(token == "status") return STATUS;
     else if(token == "create"){
         cm = CREATE;
-        string name,type,pos;
+        string name,type,pos; //get the name type and start position of the vehicle to be created
         cin >> name >> type >> pos;
         if(name.size() > 12){
             throw InvalidInputException("ERROR: vehiche name is too long");
         }
         vehicle = name;
-        if(type == "State_trooper"){
+        if(type == "State_trooper"){ //if the type is trooper get the starting warehouse
             vType = Model::TROOPER;
             startPos = pos;
             return cm;
-        }else if(type == "Chopper"){
+        }else if(type == "Chopper"){ //if the type is chopper get the x,y coordinates
             vType = Model::CHOPPER;
             stringstream ss(pos);
             ss.ignore();
             ss >> d1;
-            ss.ignore();
+            if(ss.bad())
+            {
+                throw InvalidInputException("ERROR: expected a double for x coordinate");
+            }
+            ss.ignore();//skip ','
             ss >> d2;
+            if(ss.bad())
+            {
+                throw InvalidInputException("ERROR: expected a double for y coordinate");
+            }
             return cm;
         }else{
             throw InvalidInputException("ERROR: create must have vehicle type Chopper or State_trooper");
         }
     }
+    //here it is assumed that the first token was a vehicle name
     Model::TYPE type = Model::getInstance().getObjectType(token);
     if(type != Model::TROOPER && type != Model::CHOPPER){
        throw InvalidInputException("ERROR: expected name of vehicle of type State_trooper or chopper");

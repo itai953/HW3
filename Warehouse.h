@@ -15,6 +15,25 @@ class Warehouse: public SimObject {
 public:
     //c'tor
     Warehouse(const string& name,u_int _inventory,const Point& loc):SimObject(name),inventory(_inventory),location(loc){ }
+    Warehouse(const Warehouse& wh):SimObject(wh.getName()),inventory(wh.inventory),location(wh.location){ }
+    Warehouse(Warehouse&& wh):SimObject(dynamic_cast<SimObject&&>(wh)),inventory(wh.inventory),location(wh.location){ }
+    
+    //assignment
+    Warehouse& operator=(const Warehouse& rhs)
+    {
+        SimObject::operator=(rhs);
+        inventory = rhs.inventory;
+        location = rhs.location;
+        return *this;
+    }
+    Warehouse& operator=(Warehouse&& rhs)
+    {
+        SimObject::operator=(rhs);
+        inventory = rhs.inventory;
+        location = rhs.location;
+        return *this;
+    }
+
     //update does nothing, inventory will be updated by trucks
     virtual void update(){ }
     //operator +=, -= overloads to update inventory
@@ -22,8 +41,11 @@ public:
     void operator-=(int take_crates){inventory -= take_crates;}
     //imp of SimObject getLocation
     virtual const Point& getLocation() const {return location;}
-    virtual ostream& broadcastState(ostream& out){return out << name <<" at position " << 
-                                                  location << ", Inventory: " << inventory << endl;} 
+    virtual ostream& broadcastState(ostream& out){return out<<"warehouse " << name <<" at position " << 
+                                                  location << ", Inventory: " << inventory << endl;}
+    
+    //d'tor
+    virtual ~Warehouse(){ }
 };
 
 #endif

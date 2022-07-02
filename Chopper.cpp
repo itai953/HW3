@@ -6,8 +6,8 @@
 registerInFactory<Vehicle, Chopper> rc("chopper");
 
 string Chopper::heading(){
-    string st = "Heading";
-    stringstream ss(st);
+    stringstream ss;
+    ss << " Heading";
     if(Vehicle::TrackBase::heading_to){
         ss<<" to "<<Vehicle::TrackBase::position<<",";
     }
@@ -20,8 +20,8 @@ string Chopper::heading(){
 ostream& Chopper::broadcastState(ostream& out){
     out<<"Chopper "<<Vehicle::SimObject::name<<" ";
     if(Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::MOVING){
-        out<<" at "<<Vehicle::TrackBase::curLocation;
-        out<<heading()<<" speed " <<speed<<"km/h\n";
+        out<<"at "<<Vehicle::TrackBase::curLocation;
+        out<<heading()<<" speed " <<speed<<"km/h";
 
     }
     if (Vehicle::TrackBase::getStatus() == Vehicle::TrackBase::STOPPED)

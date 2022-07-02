@@ -12,9 +12,14 @@ int main(int argc, char** argv){
     {
         controller.run(argc,argv);
     }
-    catch (std::exception &e)
+    catch (std::exception &e) //for unexpected exceptions
     {
-        
+        cerr << e.what() << endl;
+    }
+    catch(...) //for unexpected exceptions not derived from std::exception
+    {
+        cerr << "an unknown error occured, terminating program\n";
+        exit(1);
     }
     return 0;
 }

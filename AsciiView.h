@@ -11,15 +11,18 @@
  * scale: unsigned int, ratio of 1 square in matrix to 100km
  * size: unsigned int, matrix dimensions will be sizeXsize
  * origin: Point, the bottom most left corner of the map, axis origin
+ * big 5 default implementations sufficient
  */
 
 using u_int = unsigned int;
 class AsciiView{
     u_int scale,size;
     Point origin;
-    unordered_map<int,unordered_map<int,list<string>>> map;
+
+    //a helper function to filter only the objects currently in the map
     vector<shared_ptr<SimObject>> getObjectsInMap();
 public:
+    //enum for min\max size of map
     enum{MINSIZE = 6, MAXSIZE = 30};
     //c'tor
     AsciiView(u_int _scale = 2, u_int _size = 25, Point _origin = Point(0,0)):scale(_scale),size(_size),origin(_origin){ }
@@ -30,12 +33,10 @@ public:
     void setOrigin(double x, double y){origin.x = x; origin.y = y;}
     
     //draw map to ostream out
-    ostream& draw(ostream& out); //TODO implement
-    
-    void push(Point prev, Point cur,string s);
-    //clear map
-    void clear();
-    void returnDefault(){} //TODO implement
+    ostream& draw(ostream& out);
+
+    //return values to default
+    void returnDefault(){scale = 2; size = 25; origin.x = 0; origin.y = 0;}
 };
 
 

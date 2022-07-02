@@ -12,21 +12,35 @@ using namespace std;
 
 class Trooper : public Vehicle
 {
-    list<shared_ptr<SimObject>> patrol;
+
+    //list of warehouses the Trooper is going to visit 
+    //create buildCourse function 
+    list<shared_ptr<SimObject>> patrol; 
     void updateHelper(float currTime,float nextTime);
+    string heading(); //a function for internal use in broadcastState function
 public:
-    Trooper(const string& name):Vehicle(name),patrol(){ }
-  //  void destination( string warehouseName);
-    //void position(double x, double y);
-   // void course(double _course);
-    void buildCourse(const string& startWH);
-    virtual void update();
+
+    Trooper(const string& name):Vehicle(name),patrol(){ }//c'tor
+    void buildCourse(const string& startWH);//function which build the patrol list
+    virtual void update();// update Tropper status
     static Trooper* createInstance(const string& param){ return new Trooper(param);}
-    virtual ostream& broadcastState(ostream&);
-    string heading();
+    virtual ostream& broadcastState(ostream&);//prints data about tropper's current status
+
+    //setters
     virtual void setCourse(double theta);
     virtual void setPosition(double x, double y);
-    // virtual const Point& getLocation() const{return Point(); }
+  
+    //Trooper is create only by user command 
+    //and since then we work only with pointers so no need for 
+    //big five except from d'tor
+    Trooper(const Trooper&) = delete;
+    Trooper(Trooper&&) = delete;
+    Trooper& operator=(const Trooper&) =delete;
+    Trooper& operator=(Trooper&&) =delete;
+    ~Trooper(){ }
+
+
+
 };
 
 #endif

@@ -5,11 +5,16 @@ registerInFactory<Vehicle, Trooper> rt("trooper");
 
 
 string Trooper::heading(){
-    // string st = "Heading";
     stringstream ss;
     ss << " heading";
     if(Vehicle::TrackBase::heading_to){
-        ss<<" to "<<Vehicle::TrackBase::position<<",";
+        ss<<" to ";
+        if (patrol.empty()){
+            ss<<Vehicle::TrackBase::position<<",";
+        }
+        else{
+             ss<<patrol.front()->getName();
+        }
     }
     else{
         ss<< " on " << Vehicle::TrackBase::course<<" deg,";
@@ -72,24 +77,37 @@ void Trooper::buildCourse(const string& startWH){
 }
 
 void Trooper::updateHelper(float currTime, float nextTime){
-    if(patrol.empty()){
-        status = TrackBase::PARKED;
-        speed = 0;
-    }
-    else if(getDistance(curLocation,patrol.front()->getLocation()) > 0.9){
+    //means trooper won't arrive to a warehouse in this range of one hour
+    if(getDistance(curLocation,patrol.front()->getLocation()) > 0.9){
         status = MOVING;
         move(nextTime-currTime);
     }
+
+    //means trooper arrive and right a away leaving a warehouse 
     else{
+        //calculate when the trooper will get to the next next warehouse
         double time = (getDistance(curLocation,patrol.front()->getLocation()) * 100) / speed;
+        
+        //move to the next warehouse   
         curLocation = patrol.front()->getLocation();
+
+        //pop warehouse from the list
         patrol.pop_front();
+        if(patrol.empty()){
+            status = TrackBase::PARKED;
+            speed = 0;
+            return;
+        }
+        //set the target for the next warehouse
         TrackBase::setPosition(patrol.front()->getLocation());
         updateHelper(currTime+time,nextTime);
     }
 }
 
 void Trooper::update(){
+    //happens in tow situations
+    //1.Tropper is driving on course and not to a praticular warehouse
+    //2.Trroper is in PARKED status then it's speed is zero and position is where it's parked
     if(patrol.empty()){
         move();
     }  
